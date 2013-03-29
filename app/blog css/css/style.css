@@ -1,0 +1,42 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+.sidebar-nav {
+    padding: 9px 0;
+}
+
+
+.form-search {
+    margin: 5px;
+}
+
+.btn {
+    margin-bottom: 5px;
+}
+
+.dropdown-menu i.icon-chevron-right {
+    float: right;
+}
+
+.bs-docs-example {
+    margin-bottom: -10px;
+    margin-top: 5px;
+}
+
+.postComment {
+    margin-left: 0 !important;
+}
+
+.error-div {
+    text-align: center;    
+}
+
+@media (max-width: 980px) {
+    /* Enable use of floated navbar text */
+    .navbar-text.pull-right {
+        float: none;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}

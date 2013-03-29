@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<div class="span9">
+    <h2>Register</h2>
+
+    {% if form_errors(form) %}
+    <div class="btn-danger error-div">{{ form_errors(form) }}</div><br/>
+    {% endif %}
+
+    <form class="form-horizontal" action="{{ path('signUp') }}" method="post" {{ form_enctype(form) }}>
+        <div class="control-group">
+            <label class="control-label" for="form_username">User Name</label>
+            <div class="controls">
+                {{ form_widget(form.username, { 'attr': {'placeholder': 'User Name'} }) }}
+                    <p>{{ form_errors(form.username) }}</p>    
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="form_useremail">Email</label>
+                <div class="controls">
+                    {{ form_widget(form.useremail, { 'attr': {'placeholder': 'Email'} }) }}
+                    <p>{{ form_errors(form.useremail) }}</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="form_password_Password">Password</label>
+                <div class="controls">
+                    {{ form_widget(form.password.Password, { 'attr': {'placeholder': 'Password'} }) }}
+                    <p>{{ form_errors(form.password.Password) }}</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="form_password_RePassword">Repeat Password</label>
+                <div class="controls">
+                    {{ form_widget(form.password.RePassword, { 'attr': {'placeholder': 'Repeat Password'} }) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    {{ form_rest(form) }}  
+                    <button type="submit" class="btn">Register</button>
+                </div>
+            </div>
+        </form>
+
+    </div><!--/span-->
+
+{% endblock %}    

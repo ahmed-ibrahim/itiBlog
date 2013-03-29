@@ -1,0 +1,3 @@
+signUp:
+    pattern:  /signUp
+    defaults: { _controller: ItiUserBundle:Security:signUp }

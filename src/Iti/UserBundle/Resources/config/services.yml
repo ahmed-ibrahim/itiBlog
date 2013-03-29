@@ -1,0 +1,7 @@
+parameters:
+#    iti_user.example.class: Iti\UserBundle\Example
+
+services:
+#    iti_user.example:
+#        class: %iti_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

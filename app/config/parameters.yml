@@ -1,0 +1,15 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     localhost
+    database_port:     ~
+    database_name:     blog
+    database_user:     root
+    database_password: ~
+
+    mailer_transport:  gmail
+    mailer_host:       localhost
+    mailer_user:       ginq.symfony@gmail.com
+    mailer_password:   '208198'
+
+    locale:            en
+    secret:            ThisTokenIsNotSoSecretChangeIt
