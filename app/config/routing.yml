@@ -1,3 +1,7 @@
+iti_blog:
+    resource: "@ItiBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+
 iti_user:
     resource: "@ItiUserBundle/Resources/config/routing.yml"
     prefix:   /
