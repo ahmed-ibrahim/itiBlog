@@ -1,0 +1,7 @@
+blog_homepage:
+    pattern:  /
+    defaults: { _controller: ItiBlogBundle:Blog:index }
+    
+about_us:
+    pattern:  /about
+    defaults: { _controller: ItiBlogBundle:Blog:aboutUs }    

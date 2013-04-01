@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+Home Page
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+<script>
+  $(document).ready(function(){
+      //add active class for home nav link
+      $('#homeLink').addClass('active');
+  });
+</script>    
+{% endblock %}

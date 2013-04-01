@@ -19,7 +19,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="brand" href="#">Project name</a>
+                    <a class="brand" href="{{path('blog_homepage')}}">Project name</a>
                     <div class="nav-collapse collapse">
 
                         {% if not is_granted('ROLE_NOTACTIVE') %}
@@ -41,7 +41,7 @@
                         {% endif %}
                         
                         <ul class="nav">
-                            <li class="active"><a href="#"><i class="icon-home icon-white"></i>Home</a></li>
+                            <li id="homeLink"><a href="{{path('blog_homepage')}}"><i class="icon-home icon-white"></i>Home</a></li>
                             <li class="dropdown">
                                 <a href="#" data-toggle="dropdown" class="dropdown-toggle">Categories <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
@@ -50,7 +50,8 @@
                                     <li><a href="#"><i class="icon-chevron-right"></i>Cat1</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">Contact</a></li>
+                            <li id="contactLink"><a href="#">Contact Us</a></li>
+                            <li id="aboutLink"><a href="{{path('about_us')}}">About Us</a></li>
                             <li>
                                 <form class="bs-docs-example" action="search.html">
                                     <div class="input-append">
