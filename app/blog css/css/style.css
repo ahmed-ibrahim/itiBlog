@@ -2,6 +2,7 @@ body {
     padding-top: 60px;
     padding-bottom: 40px;
 }
+/* login page */
 .form-signin {
     max-width: 300px;
     padding: 19px 29px 29px;
@@ -26,6 +27,7 @@ body {
     margin-bottom: 15px;
     padding: 7px 9px;
 }
+/* end login page */
 .sidebar-nav {
     padding: 9px 0;
 }
