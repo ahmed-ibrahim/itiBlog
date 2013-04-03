@@ -1,40 +1,44 @@
-{% extends '::base.html.twig' %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="{{asset('css/bootstrap.css') }}" rel="stylesheet" media="screen">
+        <link href="{{asset('css/style.css') }}" rel="stylesheet" media="screen">
+        
+    </head>
+    <body style="background-color: #f5f5f5;">
+        <div class="container">
+            {% if error %}
+                <div class="alert alert-danger">
+                    <button data-dismiss="alert" class="close" type="button">×</button>
+                    <strong>Opps!</strong> {{ error.message }}
+                </div>
+            {% endif %}
 
-{% block body %}
-<div class="span9">
-    <h2>Login</h2>
+            {% if message %}
+                <div class="alert alert-danger">
+                    <button data-dismiss="alert" class="close" type="button">×</button>
+                    <strong>Opps!</strong> {{ message }}
+                </div>
+            {% endif %}
 
-    {% if error %}
-    <div class="btn-danger error-div">{{ error.message }}</div><br/>
-    {% endif %}
+                <form class="form-signin" action="{{ path('login_check') }}" method="post">
+                    <h2 class="form-signin-heading">Please sign in</h2>
+                    <input type="text" class="input-block-level" placeholder="User Name" name="_username" value="{{ last_username }}" />
+                    <input type="password" class="input-block-level" placeholder="Password" name="_password" />
 
-    {% if message %}
-    <div class="btn-info error-div">{{ message }}</div><br/>
-    {% endif %}
+                    <label class="checkbox">
+                        <input type="checkbox" name="_remember_me" /> Remember me
+                    </label>
+                    <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+                </form>
+            </div> <!-- /container -->
 
-    <form class="form-horizontal" action="{{ path('login_check') }}" method="post">
-        <div class="control-group">
-            <label class="control-label" for="inputUserName">User Name</label>
-            <div class="controls">
-                <input type="text" id="inputUserName" placeholder="User Name" name="_username" value="{{ last_username }}" />
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="inputPassword">Password</label>
-            <div class="controls">
-                <input type="password" id="inputPassword" placeholder="Password" name="_password" />
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <label class="checkbox">
-                    <input type="checkbox" id="remember_me" name="_remember_me" checked /> Remember me
-                </label>
-                <button type="submit" class="btn">Sign in</button>
-            </div>
-        </div>
-    </form>
+            <script src="{{asset('js/jquery-1.8.3.min.js') }}"></script>
+            <script src="{{asset('js/bootstrap.js') }}"></script>
+        </body>
+    </html>
 
-</div><!--/span-->
-
-{% endblock %}    
