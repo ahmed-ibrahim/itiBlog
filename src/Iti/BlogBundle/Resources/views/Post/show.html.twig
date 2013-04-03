@@ -1,0 +1,72 @@
+{% extends '::base.html.twig' %}
+{% block title %}{{entity.title}}{% endblock %}
+
+{% block body %}
+<div class="span9">
+    <h2>{{entity.title}}</h2>
+    <div class="row">
+        <div class="span6">
+            <p>{{entity.content}}</p>
+            <table>
+                <tr>
+                    <td><strong>Category</strong> &nbsp;&nbsp;&nbsp; </td><td>
+                        <a href="#">{{entity.category.name}}</a>
+                    </td>
+                </tr>
+                {% if entity.tags %}
+                <tr>
+                    <td><strong>Tags</strong> &nbsp;&nbsp;&nbsp; </td><td>
+                        {% for tag in entity.tags %}
+                            <a href="#">{{tag.name}}</a>
+                        {% endfor %}    
+                        </td>
+                    </tr>
+                {% endif %}
+                </table>
+            </div>
+        {% if entity.image %}
+            <div class="span3">
+                <img src="{{entity.getWebPath()}}" alt="">
+            </div>
+        {% endif %}    
+        </div>
+
+
+        <!-- post comments -->
+        <hr class="bs-docs-separator">
+
+        <h2>Add Comment</h2>
+
+        <form class="form-horizontal">
+            <div class="control-group">
+                <div class="controls postComment">
+                    <textarea rows="5" class="input-block-level"></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls postComment">
+                    <button type="submit" class="btn">Add</button>
+                </div>
+            </div>
+        </form>
+
+        <hr class="bs-docs-separator">
+
+        <img src="img/user.png" width="100" height="75"/>
+        <h3>Ahmed 24/2/2013</h3>
+        <p>Stylized implementation of HTML's element for abbreviations and acronyms to show the expanded version on hover. Abbreviations with attribute have a light dotted bottom border and a help cursor on hover, providing additional context on hover.</p>
+
+        <hr class="bs-docs-separator">
+
+        <img src="img/user.png" width="100" height="75"/>
+        <h3>Ahmed 24/2/2013</h3>
+        <p>Stylized implementation of HTML's element for abbreviations and acronyms to show the expanded version on hover. Abbreviations with attribute have a light dotted bottom border and a help cursor on hover, providing additional context on hover.</p>
+
+        <hr class="bs-docs-separator">
+
+        <img src="img/user.png" width="100" height="75"/>
+        <h3>Ahmed 24/2/2013</h3>
+        <p>Stylized implementation of HTML's element for abbreviations and acronyms to show the expanded version on hover. Abbreviations with attribute have a light dotted bottom border and a help cursor on hover, providing additional context on hover.</p>
+
+    </div>
+{% endblock %}

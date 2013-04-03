@@ -5,3 +5,7 @@ blog_homepage:
 about_us:
     pattern:  /about
     defaults: { _controller: ItiBlogBundle:Blog:aboutUs }    
+    
+ItiBlogBundle_post:
+        resource: "@ItiBlogBundle/Resources/config/routing/post.yml"
+        prefix:   /post    

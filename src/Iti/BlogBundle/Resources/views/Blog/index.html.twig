@@ -1,15 +1,38 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-Home Page
+
+<div class="span9">
+    <h2>Recent posts</h2>
+    <div class="row-fluid">
+        <ul class="thumbnails">
+            {% for latestPost in latestPosts %}
+                <li class="span4">
+                    <div class="thumbnail">
+                        <img src="{{latestPost.getWebPath()}}" width="300" height="200" alt="">
+                        <div class="caption">
+                            <h3>{{latestPost.title}}</h3>
+                            <p>{{latestPost.content}}</p>
+                            <p><a href="{{path('post_show',{'id' : latestPost.id})}}" class="btn btn-primary">more</a></p>
+                        </div>
+                    </div>
+                </li>
+            {% else %}
+
+            {% endfor %}
+            </ul>
+        </div>
+    </div><!--/span-->
+
+
 {% endblock %}
 
 {% block javascripts %}
 {{parent()}}
-<script>
-  $(document).ready(function(){
-      //add active class for home nav link
-      $('#homeLink').addClass('active');
-  });
-</script>    
+    <script>
+      $(document).ready(function(){
+          //add active class for home nav link
+          $('#homeLink').addClass('active');
+      });
+        </script>    
 {% endblock %}

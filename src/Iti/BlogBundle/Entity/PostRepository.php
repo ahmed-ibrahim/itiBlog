@@ -12,4 +12,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class PostRepository extends EntityRepository
 {
+    /**
+     * this function used to get latest posts
+     * @author ahmed
+     * use BlogController:index
+     * @param integer $limit
+     */
+    public function getLatestPosts($limit){
+        $query = $this->getEntityManager()->createQuery('
+            SELECT p
+            FROM ItiBlogBundle:Post p
+            order by p.createdAt desc
+            ')->setMaxResults($limit);
+        return $query->getResult();
+    }
 }
