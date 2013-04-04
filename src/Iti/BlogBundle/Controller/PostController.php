@@ -4,7 +4,6 @@ namespace Iti\BlogBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Iti\BlogBundle\Entity\Post;
 use Iti\BlogBundle\Form\PostType;
 
@@ -12,14 +11,13 @@ use Iti\BlogBundle\Form\PostType;
  * Post controller.
  *
  */
-class PostController extends Controller
-{
+class PostController extends Controller {
+
     /**
      * Finds and displays a Post entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ItiBlogBundle:Post')->find($id);
@@ -27,36 +25,43 @@ class PostController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
-
+        
+        //increment no of views
+        $entity->setNoOfViews($entity->getNoOfViews()+1);
+        $em->flush();
+        
         $deleteForm = $this->createDeleteForm($id);
 
+        //get post comments
+        $commentRepo = $em->getRepository('ItiBlogBundle:Comment');
+        $postComments = $commentRepo->findBy(array('post' => $id), array('createdAt' => 'asc'));
+
         return $this->render('ItiBlogBundle:Post:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+                    'entity' => $entity,
+                    'postComments' => $postComments,
+                    'delete_form' => $deleteForm->createView(),));
     }
 
     /**
      * Displays a form to create a new Post entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new Post();
-        $form   = $this->createForm(new PostType(), $entity);
+        $form = $this->createForm(new PostType(), $entity);
 
         return $this->render('ItiBlogBundle:Post:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                ));
     }
 
     /**
      * Creates a new Post entity.
      *
      */
-    public function createAction(Request $request)
-    {
-        $entity  = new Post();
+    public function createAction(Request $request) {
+        $entity = new Post();
         $form = $this->createForm(new PostType(), $entity);
         $form->bind($request);
 
@@ -69,17 +74,16 @@ class PostController extends Controller
         }
 
         return $this->render('ItiBlogBundle:Post:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                ));
     }
 
     /**
      * Displays a form to edit an existing Post entity.
      *
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ItiBlogBundle:Post')->find($id);
@@ -92,18 +96,17 @@ class PostController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ItiBlogBundle:Post:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                ));
     }
 
     /**
      * Edits an existing Post entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ItiBlogBundle:Post')->find($id);
@@ -124,18 +127,17 @@ class PostController extends Controller
         }
 
         return $this->render('ItiBlogBundle:Post:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                ));
     }
 
     /**
      * Deletes a Post entity.
      *
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -154,11 +156,11 @@ class PostController extends Controller
         return $this->redirect($this->generateUrl('post'));
     }
 
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
+                        ->add('id', 'hidden')
+                        ->getForm()
         ;
     }
+
 }

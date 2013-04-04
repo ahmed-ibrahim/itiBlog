@@ -24,6 +24,18 @@ class Post
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+     * @var integer
+     * @ORM\Column(name="noOfViews", type="integer")
+     */
+    private $noOfViews = 0;
+    
+    /**
+     * @var integer
+     * @ORM\Column(name="noOfComments", type="integer")
+     */
+    private $noOfComments = 0;
 
     /**
      * @var string
@@ -86,51 +98,77 @@ class Post
     private $temp;
 
     /**
-     * this flag is for detecting if the image has been handled
-     * @var boolean $imageHandeled
-     */
-    private $imageHandeled = FALSE;
-
-    /**
      * @Assert\Image
      * @var \Symfony\Component\HttpFoundation\File\UploadedFile
      */
-    public $file;
+    private $file;
 
     public function __construct() {
         $this->createdAt = new \DateTime();
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
-
+    
     /**
      * Set image
      *
      * @param string $image
+     * @return $this
      */
     public function setImage($image) {
         $this->image = $image;
+        return $this;
     }
 
     /**
      * Get image
      *
-     * @return string 
+     * @return string
      */
     public function getImage() {
         return $this->image;
     }
 
     /**
+     * Set file
+     *
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
+     * @return $this
+     */
+    public function setFile($file) {
+        $this->file = $file;
+        //check if we have an old image
+        if ($this->image) {
+            //store the old name to delete on the update
+            $this->temp = $this->image;
+            $this->image = NULL;
+        } else {
+            $this->image = 'initial';
+        }
+        return $this;
+    }
+
+    /**
+     * Get file
+     *
+     * @return \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+    public function getFile() {
+        return $this->file;
+    }
+
+    /**
      * this function is used to delete the current image
+     * the deleting of the current object will also delete the image and you do not need to call this function
+     * if you call this function before you remove the object the image will not be removed
      */
     public function removeImage() {
         //check if we have an old image
         if ($this->image) {
-            //store the old name to delete the image on the upadate
+            //store the old name to delete on the update
             $this->temp = $this->image;
             //delete the current image
-            $this->setImage(NULL);
+            $this->image = NULL;
         }
     }
 
@@ -139,7 +177,7 @@ class Post
      * @ORM\PreUpdate()
      */
     public function preUpload() {
-        if (NULL !== $this->file && !$this->imageHandeled) {
+        if (NULL !== $this->file && (NULL === $this->image || 'initial' === $this->image)) {
             //get the image extension
             $extension = $this->file->guessExtension();
             //generate a random image name
@@ -150,14 +188,14 @@ class Post
             if (!@is_dir($uploadDir)) {
                 //get the old umask
                 $oldumask = umask(0);
-                //not a directory probably the first time for this category try to create the directory
+                //not a directory probably the first time try to create the directory
                 $success = @mkdir($uploadDir, 0755, TRUE);
                 //reset the umask
                 umask($oldumask);
                 //check if we created the folder
                 if (!$success) {
                     //could not create the folder throw an exception to stop the insert
-                    throw new \Exception("Can not create the image directory $uploadDir");
+                    throw new \Exception("Can not create the directory $uploadDir");
                 }
             }
             //check that the file name does not exist
@@ -165,15 +203,8 @@ class Post
                 //try to find a new unique name
                 $img = uniqid();
             }
-            //check if we have an old image
-            if ($this->image) {
-                //store the old name to delete the image on the upadate
-                $this->temp = $this->image;
-            }
             //set the image new name
             $this->image = "$img.$extension";
-            //set the flag to indecate that the image has been handled
-            $this->imageHandeled = TRUE;
         }
     }
 
@@ -194,6 +225,8 @@ class Post
         if ($this->temp) {
             //try to delete the old image
             @unlink($this->getUploadRootDir() . '/' . $this->temp);
+            //clear the temp image
+            $this->temp = NULL;
         }
     }
 
@@ -216,7 +249,7 @@ class Post
     }
 
     /**
-     * @return string the relative path of image starting from web directory 
+     * @return string the relative path of image starting from web directory
      */
     public function getWebPath() {
         return NULL === $this->image ? '/images/post-default-img.jpg' : '/' . $this->getUploadDir() . '/' . $this->image;
@@ -235,8 +268,8 @@ class Post
      * @param $height the desired image height
      * @return string the htaccess file url pattern which map to timthumb url
      */
-    public function getTimThumbUrl($width = 50, $height = 50) {
-        return NULL === $this->image ? '/images/post-default-img.jpg' : "$this->image";
+    public function getSmallImageUrl($width = 50, $height = 50) {
+        return NULL === $this->image ? NULL : "/post-image/$width/$height/$this->image";
     }
 
     /**
@@ -412,5 +445,51 @@ class Post
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set noOfViews
+     *
+     * @param integer $noOfViews
+     * @return Post
+     */
+    public function setNoOfViews($noOfViews)
+    {
+        $this->noOfViews = $noOfViews;
+    
+        return $this;
+    }
+
+    /**
+     * Get noOfViews
+     *
+     * @return integer 
+     */
+    public function getNoOfViews()
+    {
+        return $this->noOfViews;
+    }
+
+    /**
+     * Set noOfComments
+     *
+     * @param integer $noOfComments
+     * @return Post
+     */
+    public function setNoOfComments($noOfComments)
+    {
+        $this->noOfComments = $noOfComments;
+    
+        return $this;
+    }
+
+    /**
+     * Get noOfComments
+     *
+     * @return integer 
+     */
+    public function getNoOfComments()
+    {
+        return $this->noOfComments;
     }
 }

@@ -1,0 +1,61 @@
+{% extends '::base.html.twig' %}
+{% block title %}{{tag.name}}{% endblock %}
+
+{% block body %}
+
+<div class="span9">
+    <h2>{{tag.name}} posts</h2>
+    <div class="row-fluid">
+        <ul class="thumbnails">
+            {% for latestPost in posts %}
+                <li class="span4">
+                    <div class="thumbnail">
+                        <img src="{{latestPost.getWebPath()}}" width="300" height="200" alt="">
+                        <div class="caption">
+                            <h3>{{latestPost.title}}</h3>
+                            <p>{{latestPost.content}}</p>
+                            <p><a href="{{path('post_show',{'id' : latestPost.id})}}" class="btn btn-primary">more</a></p>
+                        </div>
+                    </div>
+                </li>
+            {% else %}
+
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="pagination pagination-centered">
+            {% if lastPageNumber > 1 %}
+                <ul>
+                    {% if page > 1 %}
+                                                                <li><a href="{{ url('tags',{'id' : id }) }}">First</a></li>
+                                                                <li><a href="{{ url('tags', { 'id' : id,'page': page - 1}) }}">Prev</a></li>
+                    {% endif %}
+
+        {% for numberOfPage in 1..lastPageNumber %}
+        {% if numberOfPage > page - 3 and numberOfPage < page + 3 %}
+                                {% if page == numberOfPage %}<li class="active"><a href="#">{{ numberOfPage }}</a></li>{% else %}<li><a href="{{ url('tags', {'id' : id,'page': numberOfPage}) }}">{{ numberOfPage }}</a></li>{%endif%}
+        {% endif %}
+        {% endfor %}
+
+
+                    {% if page < lastPageNumber %}
+                                                                <li><a href="{{ url('tags', {'id' : id,'page': page + 1}) }}">Next</a></li>
+                                                                <li><a href="{{ url('tags', {'id' : id,'page': lastPageNumber}) }}">Last</a></li>                    
+{% endif %}
+                                                                </ul>
+                {% endif %}
+        </div>
+    </div><!--/span-->
+
+
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+    <script>
+      $(document).ready(function(){
+          //add active class for home nav link
+          $('#homeLink').addClass('active');
+      });
+        </script>    
+{% endblock %}

@@ -1,5 +1,5 @@
 parameters:
-#    iti_blog.example.class: Iti\BlogBundle\Example
+  posts_per_page: 1
 
 services:
 #    iti_blog.example:

@@ -49,9 +49,8 @@ class Comment
     /**
      * the user of the comment
      * @var \Iti\UserBundle\Entity\User $user
-     * @Assert\NotBlank()
      * @ORM\ManyToOne(targetEntity="\Iti\UserBundle\Entity\User", inversedBy="comments")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      */
     private $user;
     

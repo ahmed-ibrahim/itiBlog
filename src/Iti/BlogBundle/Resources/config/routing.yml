@@ -9,3 +9,27 @@ about_us:
 ItiBlogBundle_post:
         resource: "@ItiBlogBundle/Resources/config/routing/post.yml"
         prefix:   /post    
+        
+add_post_comment:
+    pattern:  /add_post_comment/{postId}/{commentText}
+    defaults: { _controller: ItiBlogBundle:Blog:addPostComment, postId : ~, commentText : ~ }
+    requirements:
+        postId:  \d+
+    
+category:
+    pattern:  /category/{id}/{page}
+    defaults: { _controller: ItiBlogBundle:Blog:category, page : 1 } 
+    requirements:
+        id:  \d+
+        page:  \d+
+        
+tags:
+    pattern:  /tag/{id}/{page}
+    defaults: { _controller: ItiBlogBundle:Blog:tags, page : 1 } 
+    requirements:
+        id:  \d+
+        page:  \d+      
+        
+side_bar:
+    pattern:  /sideBar
+    defaults: { _controller: ItiBlogBundle:Blog:sideBar }          
